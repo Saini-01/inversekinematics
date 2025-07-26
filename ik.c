@@ -1,11 +1,10 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdlib.h>
-#include <string.h>
-#include <GLFW/glfw3.h>
 #include <glad/glad.h>
+#include <GLFW/glfw3.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <string.h>
 
-int lengthOne, lengthTwo, angleOne, angleTwo;
 
 typedef struct{
     double length;
@@ -28,6 +27,32 @@ point computeEndEffector(arm *armOne, arm *armTwo);
 thetas solveIK(point target, arm *armOne, arm *armTwo);
 
 int main(int charc, char **charv){
+
+    if (!glfwInit()) {
+        fprintf(stderr, "Failed to initialize GLFW\n");
+        return -1;
+    }
+
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+    GLFWwindow* window = glfwCreateWindow(800, 600, "Double Jointed Arm", NULL, NULL);
+
+     if (window == NULL){
+        fprintf(stderr, "Failed to create GLFW window\n");
+        glfwTerminate();
+        return -1;
+    }
+    glfwMakeContextCurrent(window);
+
+    if (!gladLoaderLoadGL()) {
+        fprintf(stderr, "Failed to initialize GLAD\n");
+        return -1;
+    }
+
+    glViewport(0, 0, 800, 600);
+
     arm armOne, armTwo; 
     point ee, target;
     char bool[4];
@@ -42,16 +67,14 @@ int main(int charc, char **charv){
     printf("Do you have a specific point you want to reach? (y/n)");
     scanf("%s", bool); 
 
-    printf("X value of target: ");
-    scanf("%lf", &target.x);
-    printf("Y value of target: ");
-    scanf("%lf", &target.y);
-
     if(strcmp(bool, "y") == 0){
+        printf("X value of target: ");
+        scanf("%lf", &target.x);
+        printf("Y value of target: ");
+        scanf("%lf", &target.y);
         result = solveIK(target, &armOne, &armTwo);
         printf("Value of theta for arm one: %.2f.\nValue of theta for arm two: %.2f.\n", result.t1, result.t2);
     }
-    
     else{
         return 1;
     }
@@ -61,22 +84,16 @@ int main(int charc, char **charv){
 
 void setAngles(arm *armOne, arm *armTwo){
     printf("angle of arm one: ");
-    scanf("%d", &angleOne);
+    scanf("%lf", &armOne->angle);
     printf("angle of arm two: ");
-    scanf("%d", &angleTwo);
-
-    armOne->angle = angleOne;
-    armTwo->angle = angleTwo;
+    scanf("%lf", &armTwo->angle);
 }
 
 void setLengths(arm *armOne, arm *armTwo){
     printf("length of arm one: ");
-    scanf("%d", &lengthOne);
+    scanf("%lf", &armOne->length);
     printf("length of arm two: ");
-    scanf("%d", &lengthTwo);
-
-    (*armOne).length = lengthOne;
-    (*armTwo).length = lengthTwo;
+    scanf("%lf", &armTwo->length);
 }
 
 double degreesToRadians(double val){

@@ -1,26 +1,24 @@
 cmake_minimum_required(VERSION 3.10)
 project(inverse_kinematics_project C)
 
-# Add source files, including GLAD
+# Source files
 add_executable(ik
     ik.c
     glad/src/glad.c
 )
 
-# Add include directories
+# Include directories (GLAD + GLFW headers)
 target_include_directories(ik PRIVATE
     ${CMAKE_SOURCE_DIR}/glad/include
-    ${CMAKE_SOURCE_DIR}/glfw-3.4/include
+    /Users/adityasaini/Downloads/glfw-3.4/include
 )
 
-# Link GLFW
-target_link_directories(ik PRIVATE
-    ${CMAKE_SOURCE_DIR}/glfw-3.4/build/src
-)
-target_link_libraries(ik PRIVATE glfw)
 
-# macOS frameworks required by GLFW
-target_link_libraries(ik PRIVATE
+# Find the GLFW library in the specified build directory
+find_library(GLFW_LIB glfw3 PATHS /Users/adityasaini/Downloads/glfw-3.4/build/src NO_DEFAULT_PATH)
+
+# Link GLFW + macOS frameworks
+target_link_libraries(ik PRIVATE ${GLFW_LIB}
     "-framework Cocoa"
     "-framework OpenGL"
     "-framework IOKit"

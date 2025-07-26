@@ -1,11 +1,7 @@
 {
 	"InstallScripts" : 
 	[
-		"/Users/adityasaini/inversekinematics/build/cmake_install.cmake",
-		"/Users/adityasaini/inversekinematics/build/src/cmake_install.cmake",
-		"/Users/adityasaini/inversekinematics/build/examples/cmake_install.cmake",
-		"/Users/adityasaini/inversekinematics/build/tests/cmake_install.cmake",
-		"/Users/adityasaini/inversekinematics/build/docs/cmake_install.cmake"
+		"/Users/adityasaini/inversekinematics/build/cmake_install.cmake"
 	],
 	"Parallel" : false
 }
