@@ -2,6 +2,8 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
+#include <GLFW/glfw3.h>
+#include <glad/glad.h>
 
 int lengthOne, lengthTwo, angleOne, angleTwo;
 
