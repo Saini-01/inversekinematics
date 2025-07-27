@@ -14,8 +14,7 @@ target_include_directories(ik PRIVATE
 )
 
 
-# Find the GLFW library in the specified build directory
-find_library(GLFW_LIB glfw3 PATHS /Users/adityasaini/Downloads/glfw-3.4/build/src NO_DEFAULT_PATH)
+set(GLFW_LIB /Users/adityasaini/Downloads/glfw-3.4/build/src/libglfw3.a)
 
 # Link GLFW + macOS frameworks
 target_link_libraries(ik PRIVATE ${GLFW_LIB}

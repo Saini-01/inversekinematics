@@ -25,6 +25,7 @@ void setAngles(arm *armOne, arm *armTwo);
 void setLengths(arm *armOne, arm *armTwo);
 point computeEndEffector(arm *armOne, arm *armTwo);
 thetas solveIK(point target, arm *armOne, arm *armTwo);
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
 int main(int charc, char **charv){
 
@@ -53,6 +54,15 @@ int main(int charc, char **charv){
 
     glViewport(0, 0, 800, 600);
 
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+
+    while(!glfwWindowShouldClose(window)){
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
+
+    glfwTerminate();
+
     arm armOne, armTwo; 
     point ee, target;
     char bool[4];
@@ -80,6 +90,16 @@ int main(int charc, char **charv){
     }
 
     return 0;
+}
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
+    glViewport(0, 0, width, height);
+}
+
+void processInput(GLFWwindow *window){
+    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS){
+        glfwSetWindowShouldClose(window, 1);
+    }
 }
 
 void setAngles(arm *armOne, arm *armTwo){
